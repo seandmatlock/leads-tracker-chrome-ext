@@ -6,10 +6,14 @@ const deleteBtn = document.getElementById("delete-btn")
 const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
 const tabBtn = document.getElementById("tab-btn")
 
+//Preserves saved leads from local storage (prevents them from being deleted on refresh)
+
 if (leadsFromLocalStorage) {
     myLeads = leadsFromLocalStorage
     render(myLeads)
 }
+
+//Saves currently opened tab
 
 tabBtn.addEventListener("click", function(){    
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
@@ -18,6 +22,8 @@ tabBtn.addEventListener("click", function(){
         render(myLeads)
     })
 })
+
+//Function for displaying human-readable websites when saved
 
 function render(leads) {
     let listItems = ""
@@ -33,11 +39,15 @@ function render(leads) {
     ulEl.innerHTML = listItems
 }
 
+//Deletes existing websites/leads
+
 deleteBtn.addEventListener("click", function() {
     localStorage.clear()
     myLeads = []
     render(myLeads)
 })
+
+//Saves anything written into input element
 
 inputBtn.addEventListener("click", function() {
     myLeads.push(inputEl.value)
